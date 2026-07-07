@@ -1,0 +1,19 @@
+#this it the Yaml file I used for the argo-cd (inside the app)
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: final-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/eliyahui1971-il/finaldev.git'
+    path: helm
+    targetRevision: main
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

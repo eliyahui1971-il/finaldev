@@ -11,7 +11,7 @@ pipeline {
         IMAGE_TAG  = "v${env.BUILD_NUMBER}"
         
 
-        GIT_REPO_URL = 'https://github.com/eliyahu.i1971-il/finaldev.git'
+        GIT_REPO_URL = 'https://github.com/eliyahui1971-il/finaldev.git'
     }
 
     stages {
