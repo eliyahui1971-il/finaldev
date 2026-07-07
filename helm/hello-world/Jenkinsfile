@@ -7,10 +7,9 @@ pipeline {
         GIT_CREDS_ID    = 'github-credentials'
         
         
-        IMAGE_NAME = 'ieliyahu1971/hello-world'
+        IMAGE_NAME = 'ieliyahu1971/final-app'
         IMAGE_TAG  = "v${env.BUILD_NUMBER}"
         
-
         GIT_REPO_URL = 'https://github.com/eliyahui1971-il/finaldev.git'
     }
 
@@ -49,16 +48,20 @@ pipeline {
                     sh """
                     sed -i "s/tag: .*/tag: \\"${IMAGE_TAG}\\"/" helm/values.yaml
                     """
+                    
+                    
                     sh """
                     git config user.email "jenkins@your-domain.com"
                     git config user.name "Jenkins CI"
                     """
+                    
                     withCredentials([usernamePassword(credentialsId: GIT_CREDS_ID, passwordVariable: 'GIT_PASS', usernameVariable: 'GIT_USER')]) {
                         sh """
                         git add helm/values.yaml
                         git commit -m "Update image tag to ${IMAGE_TAG} [skip ci]"
                         
-                        git push https://${GIT_USER}:${GIT_PASS}@github.com/eliyahu.i1971-il/finaldev.git HEAD:main
+                    
+                        git push https://${GIT_USER}:${GIT_PASS}@github.com/eliyahui1971-il/finaldev.git HEAD:main
                         """
                     }
                 }
