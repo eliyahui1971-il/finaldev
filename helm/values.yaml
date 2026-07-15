@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: hello-world
-  tag: "test"
+  tag: "v17"
   pullPolicy: Never
 
 resources:
