@@ -4,18 +4,18 @@ metadata:
   name: {{.Release.Name}}-hello-world
   namespace: {{ .Release.Namespace }}
   labels:
-    app: hello-world
+    app: final-app
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{.Values.replicaCount}}
   {{- end }}
   selector:
     matchLabels:
-      app: hello-world
+      app: final-app
   template:
     metadata:
       labels:
-        app: hello-world
+        app: final-app
     spec:
       containers:
         - name: hello-world
