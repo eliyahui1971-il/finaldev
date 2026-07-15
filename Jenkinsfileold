@@ -2,10 +2,14 @@ pipeline {
     agent any
 
     environment {
+        
         DOCKER_CREDS_ID = 'docker-credentials' 
         GIT_CREDS_ID    = 'github-credentials'
+        
+        
         IMAGE_NAME = 'ieliyahu1971/final-app'
         IMAGE_TAG  = "v${env.BUILD_NUMBER}"
+        
         GIT_REPO_URL = 'https://github.com/eliyahui1971-il/finaldev.git'
     }
 
@@ -45,6 +49,7 @@ pipeline {
                     sed -i "s/tag: .*/tag: \\"${IMAGE_TAG}\\"/" helm/values.yaml
                     """
                     
+                    
                     sh """
                     git config user.email "jenkins@your-domain.com"
                     git config user.name "Jenkins CI"
@@ -54,6 +59,8 @@ pipeline {
                         sh """
                         git add helm/values.yaml
                         git commit -m "Update image tag to ${IMAGE_TAG} [skip ci]"
+                        
+                    
                         git push https://${GIT_USER}:${GIT_PASS}@github.com/eliyahui1971-il/finaldev.git HEAD:main
                         """
                     }
