@@ -1,13 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: {{.Release.Name}}-hello-world
+  name: {{ .Release.Name }}-final-app
   namespace: {{ .Release.Namespace }}
   labels:
     app: final-app
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{.Values.replicaCount}}
+  replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
@@ -18,17 +18,5 @@ spec:
         app: final-app
     spec:
       containers:
-        - name: hello-world
-          image: "{{.Values.image.repository}}:{{.Values.image.tag}}"
-          ports:
-            - containerPort: 8080
-          resources:
-            {{- toYaml .Values.resources | nindent 12}}
-  strategy:
-    canary:
-      steps:
-        - setWeight: 20
-        - pause: {duration: 30s}
-        - setWeight: 50
-        - pause: {duration: 30s}
-        - setWeight: 100
+        - name: final-app
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

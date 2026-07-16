@@ -19,7 +19,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    echo "Building Docker image ${IMAGE_NAME}:${IMAGE_TAG}..."
                     sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
                 }
             }
@@ -28,7 +27,6 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    echo "Pushing image to DockerHub..."
                     withCredentials([usernamePassword(credentialsId: DOCKER_CREDS_ID, passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_USER')]) {
                         sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
                         sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
@@ -40,9 +38,8 @@ pipeline {
         stage('Update Helm Values & Push to Git') {
             steps {
                 script {
-                    echo "Updating values.yaml with new image tag: ${IMAGE_TAG}"
                     sh """
-                    sed -i "s/tag: .*/tag: \\"${IMAGE_TAG}\\"/" helm/values.yaml
+                    sed -i 's/tag: ".*"/tag: "${IMAGE_TAG}"/' helm/values.yaml
                     """
                     
                     sh """
@@ -64,10 +61,10 @@ pipeline {
 
     post {
         success {
-            echo "Pipeline completed successfully! ArgoCD should sync the new version soon."
+            echo "Pipeline completed successfully!"
         }
         failure {
-            echo "Pipeline failed. Please check the logs in Jenkins."
+            echo "Pipeline failed."
         }
     }
 }

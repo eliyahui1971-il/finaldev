@@ -1,21 +1,21 @@
-{{- if .Values.autoscaling.enabled }}
+{{{- if .Values.autoscaling.enabled }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{.Release.Name}}-hpa
+  name: {{ .Release.Name }}-hpa
   namespace: {{ .Release.Namespace }}
 spec:
   scaleTargetRef:
     apiVersion: argoproj.io/v1alpha1
     kind: Rollout
-    name: {{.Release.Name}}-hello-world
-  minReplicas: {{.Values.autoscaling.minReplicas}}
-  maxReplicas: {{.Values.autoscaling.maxReplicas}}
+    name: {{ .Release.Name }}-final-app
+  minReplicas: {{ .Values.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
     - type: Resource
       resource:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: {{.Values.autoscaling.targetCPUUtilizationPercentage}}
+          averageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
 {{- end }}

@@ -1,9 +1,9 @@
 replicaCount: 2
 
 image:
-  repository: hello-world
+  repository: ieliyahu1971/final-app
   tag: "v17"
-  pullPolicy: Never
+  pullPolicy: IfNotPresent
 
 resources:
   requests:

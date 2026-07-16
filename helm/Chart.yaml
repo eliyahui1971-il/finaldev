@@ -1,5 +1,5 @@
 apiVersion: v2
-name: hello-world
-description: helm chart hello-world 
+name: final-app
+description: A Helm chart for my final devops project
 version: 0.1.0
 appVersion: "v1"
