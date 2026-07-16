@@ -1,0 +1,323 @@
+Started by user itzik eliyahu
+Obtained Jenkinsfile from git https://github.com/eliyahui1971-il/finaldev.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/final-project
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+Warning: CredentialId "05d1c90b-1d9e-437e-979e-1ef61078ebe6" could not be found.
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/final-project/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/eliyahui1971-il/finaldev.git # timeout=10
+Fetching upstream changes from https://github.com/eliyahui1971-il/finaldev.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --tags --force --progress -- https://github.com/eliyahui1971-il/finaldev.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision a936a777d9e98f82d6edbd4e95cc5045488bc44f (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f a936a777d9e98f82d6edbd4e95cc5045488bc44f # timeout=10
+Commit message: "try to fix rollout"
+ > git rev-list --no-walk fbb13e10c635a6a7c45bb7a8d5674b92e55b34c6 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout Code)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+Warning: CredentialId "05d1c90b-1d9e-437e-979e-1ef61078ebe6" could not be found.
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/final-project/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/eliyahui1971-il/finaldev.git # timeout=10
+Fetching upstream changes from https://github.com/eliyahui1971-il/finaldev.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --tags --force --progress -- https://github.com/eliyahui1971-il/finaldev.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision a936a777d9e98f82d6edbd4e95cc5045488bc44f (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f a936a777d9e98f82d6edbd4e95cc5045488bc44f # timeout=10
+Commit message: "try to fix rollout"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Docker Image)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ docker build -t ieliyahu1971/final-app:v20 .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 226B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.9-slim
+#2 ...
+
+#3 [auth] library/python:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.9-slim
+#2 DONE 1.8s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [1/6] FROM docker.io/library/python:3.9-slim@sha256:2d97f6910b16bd338d3060f261f53f144965f755599aab1acda1e13cf1731b1b
+#5 resolve docker.io/library/python:3.9-slim@sha256:2d97f6910b16bd338d3060f261f53f144965f755599aab1acda1e13cf1731b1b done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 63B done
+#6 DONE 0.0s
+
+#7 [2/6] WORKDIR /app
+#7 CACHED
+
+#8 [3/6] COPY requirements.txt .
+#8 CACHED
+
+#9 [4/6] RUN pip3 install --no-cache-dir -r requirements.txt
+#9 CACHED
+
+#10 [5/6] COPY app.py .
+#10 CACHED
+
+#11 [6/6] RUN sleep 300
+#11 CACHED
+
+#12 exporting to image
+#12 exporting layers done
+#12 exporting manifest sha256:10135d30784daddc2352800288df031759a4c882ebeba0c2c05032851866a07e done
+#12 exporting config sha256:e20d7378823356d1ccf37bdc0e16a399b2f83cfda6d988858bcd152df69693ee done
+#12 exporting attestation manifest sha256:67af34171554e59eab727ea879db60106d67062498d56e84a9fa0df28ff7217c done
+#12 exporting manifest list sha256:75975ebbb2479e9e415f06776e2b3bb4c9623ff7234ee0845575e13db075612f done
+#12 naming to docker.io/ieliyahu1971/final-app:v20 done
+#12 unpacking to docker.io/ieliyahu1971/final-app:v20 done
+#12 DONE 0.0s
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push Docker Image)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] withCredentials
+Masking supported pattern matches of $DOCKER_PASS
+[Pipeline] {
+[Pipeline] sh
++ echo ****
++ docker login -u ieliyahu1971 --password-stdin
+WARNING! Your password will be stored unencrypted in /var/jenkins_home/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[Pipeline] sh
++ docker push ieliyahu1971/final-app:v20
+The push refers to repository [docker.io/ieliyahu1971/final-app]
+479b8ad8bcc3: Waiting
+6c1a5ca5def1: Waiting
+5c983aa289e8: Waiting
+445b557fbd54: Waiting
+c23f4b503473: Waiting
+6831f332cb03: Waiting
+4f4fb700ef54: Waiting
+ebfe7d4fa0c5: Waiting
+a16e55119267: Waiting
+9635f53567f3: Waiting
+6831f332cb03: Waiting
+4f4fb700ef54: Waiting
+ebfe7d4fa0c5: Waiting
+a16e55119267: Waiting
+9635f53567f3: Waiting
+479b8ad8bcc3: Waiting
+6c1a5ca5def1: Waiting
+5c983aa289e8: Waiting
+445b557fbd54: Waiting
+c23f4b503473: Waiting
+c23f4b503473: Waiting
+6831f332cb03: Waiting
+4f4fb700ef54: Waiting
+ebfe7d4fa0c5: Waiting
+a16e55119267: Waiting
+9635f53567f3: Waiting
+479b8ad8bcc3: Waiting
+6c1a5ca5def1: Waiting
+5c983aa289e8: Waiting
+445b557fbd54: Waiting
+4f4fb700ef54: Waiting
+ebfe7d4fa0c5: Waiting
+a16e55119267: Waiting
+9635f53567f3: Waiting
+479b8ad8bcc3: Waiting
+6c1a5ca5def1: Waiting
+5c983aa289e8: Waiting
+445b557fbd54: Waiting
+c23f4b503473: Waiting
+6831f332cb03: Waiting
+9635f53567f3: Waiting
+479b8ad8bcc3: Waiting
+6c1a5ca5def1: Waiting
+5c983aa289e8: Waiting
+445b557fbd54: Waiting
+c23f4b503473: Waiting
+6831f332cb03: Waiting
+4f4fb700ef54: Waiting
+ebfe7d4fa0c5: Waiting
+a16e55119267: Waiting
+6831f332cb03: Waiting
+4f4fb700ef54: Waiting
+ebfe7d4fa0c5: Waiting
+a16e55119267: Waiting
+9635f53567f3: Waiting
+479b8ad8bcc3: Waiting
+6c1a5ca5def1: Waiting
+5c983aa289e8: Waiting
+445b557fbd54: Waiting
+c23f4b503473: Waiting
+9635f53567f3: Waiting
+479b8ad8bcc3: Waiting
+6c1a5ca5def1: Waiting
+5c983aa289e8: Waiting
+445b557fbd54: Waiting
+c23f4b503473: Waiting
+6831f332cb03: Waiting
+4f4fb700ef54: Waiting
+ebfe7d4fa0c5: Waiting
+a16e55119267: Waiting
+9635f53567f3: Waiting
+479b8ad8bcc3: Waiting
+6c1a5ca5def1: Waiting
+5c983aa289e8: Waiting
+445b557fbd54: Waiting
+c23f4b503473: Waiting
+6831f332cb03: Waiting
+4f4fb700ef54: Waiting
+ebfe7d4fa0c5: Waiting
+a16e55119267: Waiting
+6831f332cb03: Waiting
+4f4fb700ef54: Waiting
+ebfe7d4fa0c5: Waiting
+a16e55119267: Waiting
+9635f53567f3: Waiting
+479b8ad8bcc3: Waiting
+6c1a5ca5def1: Waiting
+5c983aa289e8: Waiting
+445b557fbd54: Waiting
+c23f4b503473: Waiting
+479b8ad8bcc3: Waiting
+6c1a5ca5def1: Waiting
+5c983aa289e8: Waiting
+445b557fbd54: Waiting
+c23f4b503473: Waiting
+6831f332cb03: Waiting
+4f4fb700ef54: Waiting
+ebfe7d4fa0c5: Waiting
+a16e55119267: Waiting
+9635f53567f3: Waiting
+4f4fb700ef54: Waiting
+ebfe7d4fa0c5: Waiting
+a16e55119267: Layer already exists
+9635f53567f3: Waiting
+479b8ad8bcc3: Waiting
+6c1a5ca5def1: Waiting
+5c983aa289e8: Waiting
+445b557fbd54: Waiting
+c23f4b503473: Waiting
+6831f332cb03: Waiting
+6831f332cb03: Waiting
+4f4fb700ef54: Waiting
+ebfe7d4fa0c5: Waiting
+9635f53567f3: Waiting
+479b8ad8bcc3: Waiting
+6c1a5ca5def1: Waiting
+5c983aa289e8: Waiting
+445b557fbd54: Waiting
+c23f4b503473: Waiting
+6831f332cb03: Waiting
+4f4fb700ef54: Waiting
+ebfe7d4fa0c5: Layer already exists
+9635f53567f3: Layer already exists
+479b8ad8bcc3: Waiting
+6c1a5ca5def1: Waiting
+5c983aa289e8: Waiting
+445b557fbd54: Waiting
+c23f4b503473: Waiting
+479b8ad8bcc3: Layer already exists
+6c1a5ca5def1: Layer already exists
+5c983aa289e8: Waiting
+445b557fbd54: Waiting
+c23f4b503473: Waiting
+6831f332cb03: Waiting
+4f4fb700ef54: Waiting
+5c983aa289e8: Layer already exists
+445b557fbd54: Layer already exists
+c23f4b503473: Layer already exists
+6831f332cb03: Waiting
+4f4fb700ef54: Layer already exists
+6831f332cb03: Waiting
+6831f332cb03: Waiting
+6831f332cb03: Pushed
+v20: digest: sha256:75975ebbb2479e9e415f06776e2b3bb4c9623ff7234ee0845575e13db075612f size: 856
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Update Helm Values & Push to Git)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ sed -i s/tag: ".*"/tag: "v20"/ helm/values.yaml
+[Pipeline] sh
++ git config user.email jenkins@your-domain.com
++ git config user.name Jenkins CI
+[Pipeline] withCredentials
+Masking supported pattern matches of $GIT_PASS
+[Pipeline] {
+[Pipeline] sh
+Warning: A secret was passed to "sh" using Groovy String interpolation, which is insecure.
+		 Affected argument(s) used the following variable(s): [GIT_PASS]
+		 See https://jenkins.io/redirect/groovy-string-interpolation for details.
++ git add helm/values.yaml
++ git commit -m Update image tag to v20 [skip ci]
+[detached HEAD fe0f172] Update image tag to v20 [skip ci]
+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ git push https://eliyahui1971-il:****@github.com/eliyahui1971-il/finaldev.git HEAD:main
+To https://github.com/eliyahui1971-il/finaldev.git
+   a936a77..fe0f172  HEAD -> main
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+Pipeline completed successfully!
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
