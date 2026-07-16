@@ -1,14 +1,11 @@
-apiVersion: argoproj.io/v1alpha1
+apiapiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: {{ .Release.Name }}-final-app
-  namespace: {{ .Release.Namespace }}
   labels:
     app: final-app
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       app: final-app
@@ -20,3 +17,6 @@ spec:
       containers:
         - name: final-app
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          resources:
+            requests:
+              cpu: "100m"

@@ -3,7 +3,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ .Release.Name }}-hpa
-  namespace: {{ .Release.Namespace }}
 spec:
   scaleTargetRef:
     apiVersion: argoproj.io/v1alpha1
